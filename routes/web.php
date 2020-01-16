@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('personas', 'PersonaController@inicio')->name('lista_personas');
+use Illuminate\Support\Facades\Route;
+
+Route::group(['prefix' => 'personas'], function () {
+    Route::get('', 'PersonaController@inicio')->name('lista_personas');
+    Route::get('crear', 'PersonaController@crear')->name('crear_persona');
+    Route::post('crear', 'PersonaController@guardar')->name('guardar_persona');
+    Route::get('editar/{id}', 'PersonaController@editar')->name('editar_persona');
+    Route::put('editar/{id}', 'PersonaController@actualizar')->name('actualizar_persona');
+});
 
 Route::get('vehiculos', 'VehiculoController@inicio')->name('lista_vehiculos');

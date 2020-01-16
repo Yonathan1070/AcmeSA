@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Persona;
+use App\Models\Rol;
+use Exception;
 use Illuminate\Http\Request;
 
 class PersonaController extends Controller
@@ -23,9 +25,9 @@ class PersonaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function crear()
     {
-        //
+        return view('personas.crear');
     }
 
     /**
@@ -34,20 +36,14 @@ class PersonaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function guardar(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        try {
+            Persona::crear($request);
+            return redirect()->back()->with('mensaje', 'Persona creada');
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage())->withInput();
+        }
     }
 
     /**
@@ -56,9 +52,10 @@ class PersonaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function editar($id)
     {
-        //
+        $persona = Persona::buscar($id);
+        return view('personas.editar', compact('persona'));
     }
 
     /**
@@ -68,9 +65,14 @@ class PersonaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function actualizar(Request $request, $id)
     {
-        //
+        try {
+            Persona::actualizar($request, $id);
+            return redirect()->route('lista_personas')->with('mensaje', 'Persona Actualizada');
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage())->withInput();
+        }
     }
 
     /**

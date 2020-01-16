@@ -18,7 +18,7 @@ class CrearTablaPersona extends Migration
             $table->bigIncrements('id');
             $table->string('PSN_Numero_Cedula_Persona', 15);
             $table->string('PSN_Primer_Nombre_Persona', 25);
-            $table->string('PSN_Segundo_Nombre_Persona', 25);
+            $table->string('PSN_Segundo_Nombre_Persona', 25)->nullable();
             $table->string('PSN_Apellidos_Persona', 50);
             $table->string('PSN_Direccion_Residencia_Persona', 100);
             $table->string('PSN_Telefono_Persona', 15);
