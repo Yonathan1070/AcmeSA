@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Persona;
 use App\Models\Vehiculo;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,8 +20,7 @@ class VehiculoController extends Controller
         $vehiculos = DB::table('TBL_Vehiculo as v')
             ->join('TBL_Persona as pp', 'pp.id', '=', 'v.VHC_Propietario_Id')
             ->join('TBL_Persona as pc', 'pc.id', '=', 'v.VHC_Conductor_Id')
-            ->select('v.VHC_Placa_Vehiculo',
-                'v.VHC_Marca_Vehiculo',
+            ->select('v.id as VH_Id', 'v.*',
                 'pp.PSN_Primer_Nombre_Persona as Primer_Nombre_Propietario',
                 'pp.PSN_Segundo_Nombre_Persona as Segundo_Nombre_Propietario',
                 'pp.PSN_Apellidos_Persona as Apellidos_Propietario',
@@ -35,9 +36,11 @@ class VehiculoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function crear()
     {
-        //
+        $personas = Persona::all();
+        $disponibles = Vehiculo::obtenerConductoresDisponibles();
+        return view('vehiculos.crear', compact('personas', 'disponibles'));
     }
 
     /**
@@ -46,20 +49,14 @@ class VehiculoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function guardar(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        try {
+            Vehiculo::crear($request);
+            return redirect()->back()->with('mensaje', 'Vehiculo creado');
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage())->withInput();
+        }
     }
 
     /**
@@ -68,9 +65,12 @@ class VehiculoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function editar($id)
     {
-        //
+        $vehiculo = Vehiculo::findOrFail($id);
+        $personas = Persona::all();
+        $disponibles = Vehiculo::obtenerConductoresDisponiblesSinActual($id);
+        return view('vehiculos.editar', compact('vehiculo', 'personas', 'disponibles'));
     }
 
     /**
@@ -80,9 +80,14 @@ class VehiculoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function actualizar(Request $request, $id)
     {
-        //
+        try {
+            Vehiculo::actualizar($request, $id);
+            return redirect()->route('lista_vehiculos')->with('mensaje', 'Vehiculo Actualizado');
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage())->withInput();
+        }
     }
 
     /**
@@ -91,8 +96,21 @@ class VehiculoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function reporte()
     {
-        //
+        $vehiculos = DB::table('TBL_Vehiculo as v')
+            ->join('TBL_Persona as pp', 'pp.id', '=', 'v.VHC_Propietario_Id')
+            ->join('TBL_Persona as pc', 'pc.id', '=', 'v.VHC_Conductor_Id')
+            ->select('v.id as VH_Id',
+                'v.VHC_Placa_Vehiculo',
+                'v.VHC_Marca_Vehiculo',
+                'pp.PSN_Primer_Nombre_Persona as Primer_Nombre_Propietario',
+                'pp.PSN_Segundo_Nombre_Persona as Segundo_Nombre_Propietario',
+                'pp.PSN_Apellidos_Persona as Apellidos_Propietario',
+                'pc.PSN_Primer_Nombre_Persona as Primer_Nombre_Conductor',
+                'pc.PSN_Segundo_Nombre_Persona as Segundo_Nombre_Conductor',
+                'pc.PSN_Apellidos_Persona as Apellidos_Conductor')
+            ->get();
+        return view('vehiculos.reporte', compact('vehiculos'));
     }
 }

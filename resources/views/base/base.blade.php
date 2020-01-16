@@ -24,7 +24,7 @@
                     <a class="nav-link" href="{{route('lista_vehiculos')}}">Vehiculos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Reporte</a>
+                    <a class="nav-link" href="{{route('reporte_vehiculo')}}">Reporte</a>
                 </li>
             </ul>
         </div>
