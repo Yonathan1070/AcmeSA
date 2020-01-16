@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Persona;
-use App\Models\Rol;
 use Exception;
 use Illuminate\Http\Request;
+
+/**
+ * Controlador de Persona
+ * @author Yonathan Bohorquez
+ * @version 16/01/2020 1.0
+ */
 
 class PersonaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Metodo que muestra los datos de la persona y los envia a una vista
      *
-     * @return \Illuminate\Http\Response
+     * @return Route::view('URI', 'viewName');
      */
     public function inicio()
     {
@@ -21,9 +26,9 @@ class PersonaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Metodo que retorna la vista del formulario de crear persona
      *
-     * @return \Illuminate\Http\Response
+     * @return Route::view('URI', 'viewName');
      */
     public function crear()
     {
@@ -31,10 +36,10 @@ class PersonaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Metodo que realiza la acción de almacenamiento de la persona en la BD
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Route::redirect
      */
     public function guardar(Request $request)
     {
@@ -47,10 +52,10 @@ class PersonaController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Metodo que retorna el formulario de edición de la persona
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Route::view('URI', 'viewName');
      */
     public function editar($id)
     {
@@ -59,11 +64,11 @@ class PersonaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Metodo que envia los datos a actualizar en la BD
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Route::redirect
      */
     public function actualizar(Request $request, $id)
     {
@@ -73,16 +78,5 @@ class PersonaController extends Controller
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage())->withInput();
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

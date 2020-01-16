@@ -6,8 +6,17 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Modelo de Persona
+ * @author Yonathan Bohorquez
+ * @version 16/01/2020 1.0
+ */
+
 class Persona extends Model
 {
+    /**
+     * Declaración del nonmbre de la tabla y las columnas de la misma
+     */
     protected $table = "TBL_Persona";
     protected $fillable = ['PSN_Numero_Cedula_Persona', 
         'PSN_Primer_Nombre_Persona',
@@ -18,6 +27,9 @@ class Persona extends Model
         'PSN_Ciudad_Persona'];
     protected $guarded = ['id'];
 
+    /**
+     * Metodo para el almacenamiento en la BD
+     */
     public static function crear($request){
         $persona = Persona::where('PSN_Numero_Cedula_Persona', $request->PSN_Numero_Cedula_Persona)->get();
         if(count($persona) > 0){
@@ -38,10 +50,22 @@ class Persona extends Model
         }
     }
 
+    /**
+     * Metodo para buscar un registro específico
+     *
+     * @param  int  $id
+     * @return Persona
+     */
     public static function buscar($id){
         return Persona::findOrFail($id);
     }
 
+    /**
+     * Metodo para actualizar el registro de la persona
+     *
+     * @param  int  $id
+     * @param \Illuminate\Http\Request  $request
+     */
     public static function actualizar($request, $id){
         try {
             Persona::findOrFail($id)->update($request->all());

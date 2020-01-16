@@ -8,12 +8,18 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Controlador de Vehiculo
+ * @author Yonathan Bohorquez
+ * @version 16/01/2020 1.0
+ */
+
 class VehiculoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Metodo que muestra los datos del vehiculo y los envia a una vista
      *
-     * @return \Illuminate\Http\Response
+     * @return Route::view('URI', 'viewName');
      */
     public function inicio()
     {
@@ -32,9 +38,9 @@ class VehiculoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Metodo que retorna la vista del formulario de crear vehiculo
      *
-     * @return \Illuminate\Http\Response
+     * @return Route::view('URI', 'viewName');
      */
     public function crear()
     {
@@ -44,10 +50,10 @@ class VehiculoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Metodo que realiza la acción de almacenamiento del vehiculo en la BD
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Route::redirect
      */
     public function guardar(Request $request)
     {
@@ -60,10 +66,10 @@ class VehiculoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Metodo que retorna el formulario de edición del vehiculo
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Route::view('URI', 'viewName');
      */
     public function editar($id)
     {
@@ -74,11 +80,11 @@ class VehiculoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Metodo que envia los datos a actualizar en la BD
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Route::redirect
      */
     public function actualizar(Request $request, $id)
     {
@@ -91,10 +97,9 @@ class VehiculoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Metodo que visualiza en la pantalla un reporte de datos del vehiculo
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Route::view('URI', 'viewName');
      */
     public function reporte()
     {

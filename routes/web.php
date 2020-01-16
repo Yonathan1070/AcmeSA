@@ -13,6 +13,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+//Enrutamiento para las distintas acciones de sobre personas
 Route::group(['prefix' => 'personas'], function () {
     Route::get('', 'PersonaController@inicio')->name('lista_personas');
     Route::get('crear', 'PersonaController@crear')->name('crear_persona');
@@ -20,6 +21,7 @@ Route::group(['prefix' => 'personas'], function () {
     Route::get('editar/{id}', 'PersonaController@editar')->name('editar_persona');
     Route::put('editar/{id}', 'PersonaController@actualizar')->name('actualizar_persona');
 });
+//Enrutamiento para las distintas acciones de sobre vehiculos
 Route::group(['prefix' => 'vehiculos'], function () {
     Route::get('', 'VehiculoController@inicio')->name('lista_vehiculos');
     Route::get('crear', 'VehiculoController@crear')->name('crear_vehiculo');

@@ -6,8 +6,17 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Modelo de Persona
+ * @author Yonathan Bohorquez
+ * @version 16/01/2020 1.0
+ */
+
 class Vehiculo extends Model
 {
+    /**
+     * Declaración del nonmbre de la tabla y las columnas de la misma
+     */
     protected $table = "TBL_Vehiculo";
     protected $fillable = ['VHC_Placa_Vehiculo', 
         'VHC_Color_Vehiculo',
@@ -17,6 +26,11 @@ class Vehiculo extends Model
         'VHC_Conductor_Id'];
     protected $guarded = ['id'];
 
+    /**
+     * Metodo para filtrar conductores para crear un nuevo vehiculo
+     *
+     * @return Persona $disponibles
+     */
     public static function obtenerConductoresDisponibles(){
         $conductores = Persona::all();
         $ocupados = DB::table('TBL_Persona as p')
@@ -32,6 +46,12 @@ class Vehiculo extends Model
         return $disponibles;
     }
 
+    /**
+     * Metodo para filtrar conductores disponibles para actualizar los datos del vehiculo
+     *
+     * @param  int  $id
+     * @return Persona $disponibles
+     */
     public static function obtenerConductoresDisponiblesSinActual($id){
         $conductores = Persona::all();
         $ocupados = DB::table('TBL_Persona as p')
@@ -48,6 +68,11 @@ class Vehiculo extends Model
         return $disponibles;
     }
 
+    /**
+     * Metodo para crear un nuevo vehiculo
+     *
+     * @param \Illuminate\Http\Request  $request
+     */
     public static function crear($request){
         $vehiculo = Vehiculo::where('VHC_Placa_Vehiculo', $request->VHC_Placa_Vehiculo)->get();
         if(count($vehiculo) > 0){
@@ -67,15 +92,17 @@ class Vehiculo extends Model
         }
     }
 
+    /**
+     * Metodo para actualizar el registro del vehiculo
+     *
+     * @param  int  $id
+     * @param \Illuminate\Http\Request  $request
+     */
     public static function actualizar($request, $id){
         try {
             Vehiculo::findOrFail($id)->update($request->all());
         } catch (\Throwable $th) {
             throw new Exception("No se pudo actualizar el vehiculo!");
         }
-    }
-
-    public static function eliminar(){
-        
     }
 }
