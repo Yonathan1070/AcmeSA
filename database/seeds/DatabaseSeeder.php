@@ -14,12 +14,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->truncateTablas([
             'TBL_Persona',
-            'TBL_Vehiculo',
-            'TBL_Persona_Vehiculo'
+            'TBL_Vehiculo'
         ]);
         $this->call(TablaPersonaSeeder::class);
         $this->call(TablaVehiculoSeeder::class);
-        $this->call(TablaPersonaVehiculoSeeder::class);
     }
     protected function truncateTablas(array $tablas){
         DB::statement('SET FOREIGN_KEY_CHECKS = 0;');

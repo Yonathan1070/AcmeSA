@@ -20,6 +20,10 @@ class CrearTablaVehiculo extends Migration
             $table->string('VHC_Color_Vehiculo', 10);
             $table->string('VHC_Marca_Vehiculo', 25);
             $table->string('VHC_Tipo_Vehiculo', 10);
+            $table->unsignedBigInteger('VHC_Propietario_Id');
+            $table->foreign('VHC_Propietario_Id', 'FK_Vehiculo_Propietario_Id')->references('id')->on('TBL_Persona')->onDelete('restrict')->onUpdate('restrict');
+            $table->unsignedBigInteger('VHC_Conductor_Id');
+            $table->foreign('VHC_Conductor_Id', 'FK_Vehiculo_Conductor_Id')->references('id')->on('TBL_Persona')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });
     }

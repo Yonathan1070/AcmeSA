@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('personas', 'PersonaController@inicio')->name('lista_personas');
+
+Route::get('vehiculos', 'VehiculoController@inicio')->name('lista_vehiculos');
